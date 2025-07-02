@@ -3,8 +3,8 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import ToolCard from '../components/ToolCard';
 import Footer from '../components/Footer';
-import { Tool } from '../data/mockTools'; // Kita masih pakai 'Tool' sebagai tipe data
-import { supabase } from '../lib/supabaseClient'; // Impor klien Supabase
+import { Tool } from '../data/mockTools';
+import { supabase } from '../lib/supabaseClient';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 
 const ITEMS_PER_PAGE = 20;
@@ -16,7 +16,7 @@ const Index = () => {
   const [selectedPricing, setSelectedPricing] = useState('Semua Harga');
   const [allTools, setAllTools] = useState<Tool[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true); // State untuk loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTools = async () => {

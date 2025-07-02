@@ -6,7 +6,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import * as XLSX from 'xlsx';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import { supabase } from '../lib/supabaseClient'; // Impor Supabase client
+import { supabase } from '../lib/supabaseClient';
 
 const Admin = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -63,7 +63,6 @@ const Admin = () => {
     setUploading(true);
     setUploadStatus({ type: null, message: '' });
 
-    // Hapus data lama terlebih dahulu untuk menghindari duplikat
     const { error: deleteError } = await supabase.from('tools').delete().neq('id', 0);
 
     if (deleteError) {
@@ -111,7 +110,6 @@ const Admin = () => {
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel</h1>
                 <p className="text-gray-600">Kelola konten AI Portal dengan mengunggah file Excel.</p>
               </div>
-
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -130,7 +128,6 @@ const Admin = () => {
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
                   </div>
-                  
                   {uploadStatus.type && (
                     <Alert className={uploadStatus.type === 'success' ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}>
                         {uploadStatus.type === 'success' ? <Check className="h-4 w-4 text-green-600" /> : <AlertCircle className="h-4 w-4 text-red-600" />}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Home, Search, Heart, Settings } from 'lucide-react';
+import { Home, Search, Settings } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -22,6 +22,7 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
 }) => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+
   const menuItems = [
     { name: 'Beranda', path: '/', icon: Home },
     { name: 'Semua Tools', path: '/browse', icon: Search },
@@ -40,25 +41,25 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
         <ul className="space-y-2">
           {menuItems.map((item) => {
             if (item.name === 'Admin' && !isAuthenticated) {
-              return null; // Jangan tampilkan menu Admin jika belum login
-    }
-    return (
-      <li key={item.name}>
-        <NavLink
-          to={item.path}
-          className={({ isActive }) =>
-            `flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium ${
-              isActive ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
-            }`
-          }
-        >
-          <item.icon className="h-5 w-5" />
-          <span>{item.name}</span>
-        </NavLink>
-      </li>
-    );
-  })}
-</ul>
+              return null;
+            }
+            return (
+              <li key={item.name}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium ${
+                      isActive ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
+                    }`
+                  }
+                >
+                  <item.icon className="h-5 w-5" />
+                  <span>{item.name}</span>
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
 
         {location.pathname === '/' && onCategoryChange && onPricingChange && (
           <div className="mt-8 pt-4 border-t border-gray-200">
@@ -110,7 +111,6 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
     </div>
   );
 };
-
 
 const Sidebar: React.FC<SidebarProps> = ({ 
   isOpen, 
