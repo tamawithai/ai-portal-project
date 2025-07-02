@@ -1,14 +1,15 @@
-
 import React, { useState } from 'react';
-import { Upload, FileSpreadsheet, Check, AlertCircle } from 'lucide-react';
+import { Upload, FileSpreadsheet, Check, AlertCircle, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import * as XLSX from 'xlsx';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Tool {
+  id: string;
   name: string;
   description: string;
   link: string;
@@ -47,6 +48,7 @@ const Admin = () => {
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
         
         const tools: Tool[] = jsonData.map((row: any, index: number) => ({
+          id: String(row.id || index + 1),
           name: row.name || row.Name || '',
           description: row.description || row.Description || '',
           link: row.link || row.Link || row.url || row.URL || '',
@@ -56,7 +58,7 @@ const Admin = () => {
           tags: typeof (row.tags || row.Tags) === 'string' 
             ? (row.tags || row.Tags).split(',').map((tag: string) => tag.trim())
             : [],
-          popularityScore: Number(row.popularityScore || row.PopularityScore) || index + 1
+          popularityScore: Number(row.popularityScore || row.PopularityScore) || 0
         }));
 
         setPreviewData(tools);
@@ -67,179 +69,135 @@ const Admin = () => {
     reader.readAsBinaryString(file);
   };
 
-  const handleUpload = async () => {
-    if (!file || previewData.length === 0) return;
+  const handleDownloadFile = () => {
+    if (previewData.length === 0) return;
 
-    setUploading(true);
-    try {
-      // Simpan data ke localStorage sebagai string JSON
-      localStorage.setItem('ai_tools_data', JSON.stringify(previewData));
+    const fileContent = `
+export interface Tool {
+  id: string;
+  name: string;
+  description: string;
+  link: string;
+  imageUrl: string;
+  category: string;
+  pricing: string;
+  tags: string[];
+  popularityScore: number;
+}
 
-      // Simulasi penundaan untuk UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setUploadStatus({type: 'success', message: `Berhasil menyimpan ${previewData.length} tools!`});
-      setFile(null);
-      setPreviewData([]);
-      
-      // Reset input file
-      const fileInput = document.getElementById('file-input') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
-      
-    } catch (error) {
-      console.error("Gagal menyimpan ke localStorage:", error);
-      setUploadStatus({type: 'error', message: 'Gagal menyimpan data. Silakan coba lagi.'});
-    } finally {
-      setUploading(false);
-    }
+export const mockTools: Tool[] = ${JSON.stringify(previewData, null, 2)};
+`;
+
+    const blob = new Blob([fileContent.trim()], { type: 'text/typescript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mockTools.ts';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
-        isMenuOpen={isMenuOpen}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-      />
-      
       <div className="flex">
-        <Sidebar isOpen={isMenuOpen} />
+        <Sidebar 
+          isOpen={isMenuOpen}
+          onOpenChange={setIsMenuOpen}
+          selectedCategory={selectedCategory}
+          selectedPricing={selectedPricing}
+          onCategoryChange={setSelectedCategory}
+          onPricingChange={setSelectedPricing}
+        />
         
-        <main className="flex-1 p-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel</h1>
-              <p className="text-gray-600">Kelola konten AI Portal dengan mengunggah file Excel</p>
-            </div>
+        <div className="flex-1 flex flex-col">
+          <Header 
+            onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
+            isMenuOpen={isMenuOpen}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+          />
+          <main className="flex-1 p-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel</h1>
+                <p className="text-gray-600">Kelola konten AI Portal dengan mengunggah file Excel.</p>
+              </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileSpreadsheet className="h-6 w-6" />
-                  Upload File Excel
-                </CardTitle>
-                <CardDescription>
-                  Upload file Excel dengan kolom: name, description, link, imageUrl, category, pricing, tags, popularityScore
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center hover:border-gray-300 transition-colors">
-                  <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-600">
-                      Klik untuk memilih file Excel atau drag & drop
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Format yang didukung: .xlsx, .xls
-                    </p>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileSpreadsheet className="h-6 w-6" />
+                    Upload File Excel
+                  </CardTitle>
+                  <CardDescription>
+                    Unggah file Excel untuk memperbarui daftar tools.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center hover:border-gray-300 transition-colors relative">
+                    <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                    <div className="space-y-2">
+                      <p className="text-sm text-gray-600">
+                        Klik untuk memilih file Excel atau drag & drop
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Format yang didukung: .xlsx, .xls
+                      </p>
+                    </div>
+                    <input
+                      id="file-input"
+                      type="file"
+                      accept=".xlsx,.xls"
+                      onChange={handleFileSelect}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
                   </div>
-                  <input
-                    id="file-input"
-                    type="file"
-                    accept=".xlsx,.xls"
-                    onChange={handleFileSelect}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                </div>
 
-                {file && (
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-sm font-medium text-blue-900">File yang dipilih:</p>
-                    <p className="text-sm text-blue-700">{file.name}</p>
-                    <p className="text-xs text-blue-600 mt-1">
-                      Preview: {previewData.length} tools akan ditambahkan
-                    </p>
-                  </div>
-                )}
+                  {previewData.length > 0 && (
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-gray-900">Preview Data ({previewData.length} items)</h3>
+                      <div className="max-h-60 overflow-y-auto border rounded-lg p-2">
+                        <div className="grid gap-2">
+                          {previewData.slice(0, 5).map((tool, index) => (
+                            <div key={index} className="bg-white p-3 rounded border text-sm">
+                              <div className="font-medium">{tool.name}</div>
+                              <div className="text-gray-600 text-xs">{tool.category} • {tool.pricing}</div>
+                            </div>
+                          ))}
+                          {previewData.length > 5 && (
+                            <div className="text-center text-sm text-gray-500 py-2">
+                              ... dan {previewData.length - 5} item lainnya
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <Alert className="border-blue-200 bg-blue-50">
+                        <AlertCircle className="h-4 w-4 text-blue-600" />
+                        <AlertDescription className="text-blue-800">
+                          Data siap untuk diunduh. Klik tombol di bawah untuk mendapatkan file `mockTools.ts` yang baru.
+                        </AlertDescription>
+                      </Alert>
 
-                {uploadStatus.type && (
-                  <Alert className={uploadStatus.type === 'success' ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}>
-                    {uploadStatus.type === 'success' ? (
-                      <Check className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <AlertCircle className="h-4 w-4 text-red-600" />
-                    )}
-                    <AlertDescription className={uploadStatus.type === 'success' ? 'text-green-800' : 'text-red-800'}>
-                      {uploadStatus.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {previewData.length > 0 && (
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-gray-900">Preview Data ({previewData.length} items)</h3>
-                    <div className="max-h-60 overflow-y-auto border rounded-lg">
-                      <div className="grid gap-2 p-4">
-                        {previewData.slice(0, 5).map((tool, index) => (
-                          <div key={index} className="bg-white p-3 rounded border text-sm">
-                            <div className="font-medium">{tool.name}</div>
-                            <div className="text-gray-600 text-xs">{tool.category} • {tool.pricing}</div>
-                          </div>
-                        ))}
-                        {previewData.length > 5 && (
-                          <div className="text-center text-sm text-gray-500 py-2">
-                            ... dan {previewData.length - 5} item lainnya
-                          </div>
-                        )}
+                      <div className="flex gap-3">
+                        <Button
+                          onClick={handleDownloadFile}
+                          disabled={previewData.length === 0}
+                          className="bg-gray-800 hover:bg-gray-900 text-white"
+                        >
+                          <Download className="mr-2 h-4 w-4" />
+                          Generate & Download File
+                        </Button>
                       </div>
                     </div>
-                  </div>
-                )}
-
-                <div className="flex gap-3">
-                  <Button
-                    onClick={handleUpload}
-                    disabled={!file || previewData.length === 0 || uploading}
-                    className="bg-gray-800 hover:bg-gray-900 text-white"
-                  >
-                    {uploading ? 'Mengunggah...' : 'Upload Data'}
-                  </Button>
-                  
-                  {file && (
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setFile(null);
-                        setPreviewData([]);
-                        setUploadStatus({type: null, message: ''});
-                        const fileInput = document.getElementById('file-input') as HTMLInputElement;
-                        if (fileInput) fileInput.value = '';
-                      }}
-                    >
-                      Batal
-                    </Button>
                   )}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="mt-8">
-              <CardHeader>
-                <CardTitle>Format File Excel</CardTitle>
-                <CardDescription>
-                  Pastikan file Excel memiliki kolom dengan header berikut:
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                  <div className="space-y-2">
-                    <div><strong>name:</strong> Nama tool AI</div>
-                    <div><strong>description:</strong> Deskripsi tool</div>
-                    <div><strong>link:</strong> URL website tool</div>
-                    <div><strong>imageUrl:</strong> URL gambar/logo</div>
-                  </div>
-                  <div className="space-y-2">
-                    <div><strong>category:</strong> Kategori tool</div>
-                    <div><strong>pricing:</strong> Gratis/Berbayar/Freemium</div>
-                    <div><strong>tags:</strong> Tag dipisah koma</div>
-                    <div><strong>popularityScore:</strong> Angka popularitas</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
+                </CardContent>
+              </Card>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );
