@@ -451,7 +451,7 @@ export const mockTools: Tool[] = [
     "name": "Thumbnail Ace",
     "description": "Desain thumbnail YouTube yang menarik perhatian.",
     "link": "https://example.com/thumbnailace",
-    "imageUrl": "https://placehold.co/fef2f2/b91c1c?text=ThumbnailAce",
+    "imageUrl": "https://placehold.co/500x300/fef2f2/b91c1c?text=ThumbnailAce",
     "category": "Kreatif",
     "pricing": "Freemium",
     "tags": [
@@ -460,5 +460,305 @@ export const mockTools: Tool[] = [
       "desain"
     ],
     "popularityScore": 65
+  },
+  {
+    "id": "31",
+    "name": "DocuSum",
+    "description": "Meringkas dokumen panjang menjadi poin-poin penting.",
+    "link": "https://example.com/docusum",
+    "imageUrl": "https://placehold.co/500x300/D1D5DB/111827?text=DocuSum",
+    "category": "Produktivitas",
+    "pricing": "Freemium",
+    "tags": [
+      "dokumen",
+      "ringkasan",
+      "riset"
+    ],
+    "popularityScore": 64
+  },
+  {
+    "id": "32",
+    "name": "SocialScheduler",
+    "description": "Menjadwalkan postingan media sosial di waktu optimal.",
+    "link": "https://example.com/socialscheduler",
+    "imageUrl": "https://placehold.co/500x300/A5B4FC/312E81?text=Scheduler",
+    "category": "Marketing",
+    "pricing": "Berbayar",
+    "tags": [
+      "sosial media",
+      "jadwal",
+      "konten"
+    ],
+    "popularityScore": 63
+  },
+  {
+    "id": "33",
+    "name": "ClearTranslate",
+    "description": "Terjemahan real-time untuk percakapan suara.",
+    "link": "https://example.com/cleartranslate",
+    "imageUrl": "https://placehold.co/500x300/FBCFE8/831843?text=Translate",
+    "category": "Komunikasi",
+    "pricing": "Gratis",
+    "tags": [
+      "terjemahan",
+      "suara",
+      "percakapan"
+    ],
+    "popularityScore": 62
+  },
+  {
+    "id": "34",
+    "name": "TestGen",
+    "description": "Membuat unit test untuk kode secara otomatis.",
+    "link": "https://example.com/testgen",
+    "imageUrl": "https://placehold.co/500x300/FDE68A/854D0E?text=TestGen",
+    "category": "Kreatif",
+    "pricing": "Freemium",
+    "tags": [
+      "coding",
+      "testing",
+      "developer"
+    ],
+    "popularityScore": 61
+  },
+  {
+    "id": "35",
+    "name": "MarketPredict",
+    "description": "Prediksi tren pasar menggunakan data historis.",
+    "link": "https://example.com/marketpredict",
+    "imageUrl": "https://placehold.co/500x300/C7D2FE/3730A3?text=Predict",
+    "category": "Analisis",
+    "pricing": "Berbayar",
+    "tags": [
+      "pasar",
+      "analisis",
+      "prediksi"
+    ],
+    "popularityScore": 60
+  },
+  {
+    "id": "36",
+    "name": "DreamBrush",
+    "description": "Generator gambar dari imajinasi liar Anda.",
+    "link": "https://example.com/dreambrush",
+    "imageUrl": "https://placehold.co/500x300/BFDBFE/1E40AF?text=DreamBrush",
+    "category": "Kreatif",
+    "pricing": "Gratis",
+    "tags": [
+      "gambar",
+      "seni",
+      "imajinasi"
+    ],
+    "popularityScore": 59
+  },
+  {
+    "id": "37",
+    "name": "MinuteTaker",
+    "description": "Membuat notulensi rapat secara otomatis dari rekaman.",
+    "link": "https://example.com/minutetaker",
+    "imageUrl": "https://placehold.co/500x300/DDD6FE/5B21B6?text=Minutes",
+    "category": "Produktivitas",
+    "pricing": "Freemium",
+    "tags": [
+      "rapat",
+      "notulensi",
+      "produktivitas"
+    ],
+    "popularityScore": 58
+  },
+  {
+    "id": "38",
+    "name": "EmailEngage",
+    "description": "Personalisasi campaign email marketing dengan AI.",
+    "link": "https://example.com/emailengage",
+    "imageUrl": "https://placehold.co/500x300/FED7AA/9A3412?text=EmailEngage",
+    "category": "Marketing",
+    "pricing": "Berbayar",
+    "tags": [
+      "email",
+      "marketing",
+      "crm"
+    ],
+    "popularityScore": 57
+  },
+  {
+    "id": "39",
+    "name": "TalkFlow",
+    "description": "Latihan presentasi dan pidato dengan feedback AI.",
+    "link": "https://example.com/talkflow",
+    "imageUrl": "https://placehold.co/500x300/FDE047/713F12?text=TalkFlow",
+    "category": "Komunikasi",
+    "pricing": "Freemium",
+    "tags": [
+      "presentasi",
+      "pidato",
+      "latihan"
+    ],
+    "popularityScore": 56
+  },
+  {
+    "id": "40",
+    "name": "AlgoTrader",
+    "description": "Platform trading otomatis berbasis algoritma AI.",
+    "link": "https://example.com/algotrader",
+    "imageUrl": "https://placehold.co/500x300/BEF264/3F6212?text=AlgoTrader",
+    "category": "Analisis",
+    "pricing": "Berbayar",
+    "tags": [
+      "trading",
+      "saham",
+      "investasi"
+    ],
+    "popularityScore": 55
+  },
+  {
+    "id": "41",
+    "name": "StoryWeaver",
+    "description": "Membantu penulis membuat alur cerita yang menarik.",
+    "link": "https://example.com/storyweaver",
+    "imageUrl": "https://placehold.co/500x300/E9D5FF/581C87?text=StoryWeaver",
+    "category": "Kreatif",
+    "pricing": "Freemium",
+    "tags": [
+      "menulis",
+      "cerita",
+      "kreatif"
+    ],
+    "popularityScore": 54
+  },
+  {
+    "id": "42",
+    "name": "FocusFlow",
+    "description": "Memblokir gangguan dan meningkatkan fokus kerja.",
+    "link": "https://example.com/focusflow",
+    "imageUrl": "https://placehold.co/500x300/BAE6FD/0C4A6E?text=FocusFlow",
+    "category": "Produktivitas",
+    "pricing": "Gratis",
+    "tags": [
+      "fokus",
+      "produktivitas",
+      "kerja"
+    ],
+    "popularityScore": 53
+  },
+  {
+    "id": "43",
+    "name": "AdVisuals",
+    "description": "Membuat visual iklan yang menarik dari deskripsi produk.",
+    "link": "https://example.com/advisuals",
+    "imageUrl": "https://placehold.co/500x300/FECACA/991B1B?text=AdVisuals",
+    "category": "Marketing",
+    "pricing": "Berbayar",
+    "tags": [
+      "iklan",
+      "desain",
+      "visual"
+    ],
+    "popularityScore": 52
+  },
+  {
+    "id": "44",
+    "name": "SupportBot",
+    "description": "Chatbot layanan pelanggan yang belajar dari interaksi.",
+    "link": "https://example.com/supportbot",
+    "imageUrl": "https://placehold.co/500x300/D1FAE5/065F46?text=SupportBot",
+    "category": "Komunikasi",
+    "pricing": "Freemium",
+    "tags": [
+      "chatbot",
+      "support",
+      "layanan"
+    ],
+    "popularityScore": 51
+  },
+  {
+    "id": "45",
+    "name": "CodeDoc",
+    "description": "Membuat dokumentasi kode secara otomatis.",
+    "link": "https://example.com/codedoc",
+    "imageUrl": "https://placehold.co/500x300/E0E7FF/3730A3?text=CodeDoc",
+    "category": "Kreatif",
+    "pricing": "Gratis",
+    "tags": [
+      "coding",
+      "dokumentasi",
+      "developer"
+    ],
+    "popularityScore": 50
+  },
+  {
+    "id": "46",
+    "name": "HealthTrack",
+    "description": "Analisis data kesehatan pribadi dan rekomendasi.",
+    "link": "https://example.com/healthtrack",
+    "imageUrl": "https://placehold.co/500x300/BBF7D0/15803D?text=HealthTrack",
+    "category": "Analisis",
+    "pricing": "Freemium",
+    "tags": [
+      "kesehatan",
+      "analisis",
+      "data"
+    ],
+    "popularityScore": 49
+  },
+  {
+    "id": "47",
+    "name": "NotePerfect",
+    "description": "Mengatur dan menghubungkan catatan digital Anda.",
+    "link": "https://example.com/noteperfect",
+    "imageUrl": "https://placehold.co/500x300/FEF9C3/854D0E?text=NotePerfect",
+    "category": "Produktivitas",
+    "pricing": "Freemium",
+    "tags": [
+      "catatan",
+      "organisasi",
+      "produktivitas"
+    ],
+    "popularityScore": 48
+  },
+  {
+    "id": "48",
+    "name": "SEOGuru",
+    "description": "Rekomendasi kata kunci dan strategi SEO.",
+    "link": "https://example.com/seoguru",
+    "imageUrl": "https://placehold.co/500x300/CFFAFE/0E7490?text=SEOGuru",
+    "category": "Marketing",
+    "pricing": "Berbayar",
+    "tags": [
+      "seo",
+      "marketing",
+      "kata kunci"
+    ],
+    "popularityScore": 47
+  },
+  {
+    "id": "49",
+    "name": "ConnectSphere",
+    "description": "Manajemen kontak dan jaringan profesional cerdas.",
+    "link": "https://example.com/connectsphere",
+    "imageUrl": "https://placehold.co/500x300/E9D5FF/6B21A8?text=Connect",
+    "category": "Komunikasi",
+    "pricing": "Gratis",
+    "tags": [
+      "jaringan",
+      "kontak",
+      "crm"
+    ],
+    "popularityScore": 46
+  },
+  {
+    "id": "50",
+    "name": "DesignSystem AI",
+    "description": "Membuat dan mengelola design system secara otomatis.",
+    "link": "https://example.com/designsystem",
+    "imageUrl": "https://placehold.co/500x300/FBCFE8/9D2674?text=DesignSys",
+    "category": "Kreatif",
+    "pricing": "Berbayar",
+    "tags": [
+      "desain",
+      "ui",
+      "ux"
+    ],
+    "popularityScore": 45
   }
-];
+]
