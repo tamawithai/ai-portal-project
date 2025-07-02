@@ -3,7 +3,8 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import ToolCard from '../components/ToolCard';
 import Footer from '../components/Footer';
-import { mockTools, Tool } from '../data/mockTools';
+import { Tool } from '../data/mockTools';
+import { supabase } from '../lib/supabaseClient';
 
 const Browse = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,23 +12,25 @@ const Browse = () => {
   const [selectedCategory, setSelectedCategory] = useState('Semua Kategori');
   const [selectedPricing, setSelectedPricing] = useState('Semua Harga');
   const [allTools, setAllTools] = useState<Tool[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Coba ambil data dari localStorage
-    const storedTools = localStorage.getItem('ai_tools_data');
-    if (storedTools) {
-      try {
-        const parsedTools = JSON.parse(storedTools);
-        const sortedTools = [...parsedTools].sort((a, b) => b.popularityScore - a.popularityScore);
-        setAllTools(sortedTools);
-      } catch (e) {
-        console.error("Gagal parse data dari localStorage, menggunakan mock data.", e);
-        setAllTools([...mockTools].sort((a, b) => b.popularityScore - a.popularityScore));
+    const fetchTools = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('tools')
+        .select('*')
+        .order('popularityScore', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching tools:', error);
+      } else {
+        setAllTools(data as Tool[]);
       }
-    } else {
-      // Jika tidak ada, gunakan mockTools
-      setAllTools([...mockTools].sort((a, b) => b.popularityScore - a.popularityScore));
-    }
+      setLoading(false);
+    };
+
+    fetchTools();
   }, []);
 
   const filteredTools = useMemo(() => {
@@ -35,10 +38,10 @@ const Browse = () => {
       const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            tool.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            (tool.tags && tool.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
-      
+
       const matchesCategory = selectedCategory === 'Semua Kategori' || tool.category === selectedCategory;
       const matchesPricing = selectedPricing === 'Semua Harga' || tool.pricing === selectedPricing;
-      
+
       return matchesSearch && matchesCategory && matchesPricing;
     });
   }, [searchQuery, selectedCategory, selectedPricing, allTools]);
@@ -54,7 +57,7 @@ const Browse = () => {
           onCategoryChange={setSelectedCategory}
           onPricingChange={setSelectedPricing}
         />
-        
+
         <div className="flex flex-col flex-1">
           <Header 
             onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
@@ -62,7 +65,7 @@ const Browse = () => {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
           />
-          
+
           <main className="flex-1 p-6">
             <div className="max-w-7xl mx-auto">
               <div className="mb-8">
@@ -70,11 +73,13 @@ const Browse = () => {
                   Semua Tools AI
                 </h2>
                 <p className="text-gray-600">
-                  Menampilkan {filteredTools.length} tools yang tersedia.
+                  Ditemukan {filteredTools.length} tools yang tersedia.
                 </p>
               </div>
 
-              {filteredTools.length > 0 ? (
+              {loading ? (
+                <div className="text-center py-12">Loading tools...</div>
+              ) : filteredTools.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                   {filteredTools.map((tool, index) => (
                     <ToolCard
@@ -91,7 +96,7 @@ const Browse = () => {
               )}
             </div>
           </main>
-          
+
           <Footer />
         </div>
       </div>
