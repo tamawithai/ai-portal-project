@@ -23,6 +23,8 @@ interface Tool {
 const Admin = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Semua Kategori'); // <--- TAMBAHKAN INI
+  const [selectedPricing, setSelectedPricing] = useState('Semua Harga');   // <--- TAMBAHKAN INI
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<{type: 'success' | 'error' | null, message: string}>({type: null, message: ''});
