@@ -127,7 +127,7 @@ export const mockTools: Tool[] = ${JSON.stringify(previewData, null, 2)};
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel</h1>
                 <p className="text-gray-600">Gunakan halaman ini untuk mengonversi file Excel menjadi file `mockTools.ts`.</p>
               </div>
-              <Card>
+              <Card className="bg-white">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileSpreadsheet className="h-6 w-6" />
@@ -138,7 +138,7 @@ export const mockTools: Tool[] = ${JSON.stringify(previewData, null, 2)};
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center hover:border-gray-300 transition-colors relative">
+                  <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors relative text-gray-800 focus:outline-none focus:ring-0">
                     <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <div className="space-y-2">
                       <p className="text-sm text-gray-600">

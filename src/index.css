@@ -156,3 +156,31 @@ input::placeholder {
   color: #D1D5DB !important; /* placeholder abu terang */
   opacity: 1;
 }
+
+input[placeholder*="Cari"]::placeholder {
+  color: #6B7280 !important;
+  opacity: 1 !important;
+}
+
+
+:root {
+  --card: 255 255 255; /* putih */
+  --card-foreground: 31 41 55; /* abu gelap */
+}
+
+.bg-card {
+  background-color: rgb(var(--card)) !important;
+}
+
+.text-card-foreground {
+  color: rgb(var(--card-foreground)) !important;
+}
+
+/* Hilangkan ring kuning saat fokus di area upload file */
+.border-2.border-dashed:focus,
+.border-2.border-dashed:focus-visible,
+.border-2.border-dashed:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #d1d5db !important; /* Pastikan border abu-abu */
+}
