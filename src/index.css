@@ -184,3 +184,21 @@ input[placeholder*="Cari"]::placeholder {
   box-shadow: none !important;
   border-color: #d1d5db !important; /* Pastikan border abu-abu */
 }
+
+/* Global: hilangkan ring kuning saat focus/hover */
+button:focus,
+button:focus-visible,
+input:focus,
+input:focus-visible,
+select:focus,
+select:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+a:focus,
+a:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5) !important; /* abu-abu */
+  border-color: #6B7280 !important; /* abu-abu */
+  background-color: #E5E7EB !important; /* abu-abu muda jika hover */
+}
+
