@@ -67,3 +67,86 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* === FIX Dropdown Yellow Background === */
+[data-radix-popper-content-wrapper], 
+[data-radix-select-content], 
+[data-shadcnui-select-content],
+.SelectContent, 
+.select-content,
+div[role="listbox"] {
+  background-color: #fff !important;      /* Putih */
+  color: #111 !important;                 /* Abu gelap/hitam */
+}
+
+/* Untuk trigger (button select) */
+[data-state], 
+.SelectTrigger, 
+.select-trigger,
+div[role="combobox"] {
+  background-color: #fff !important;
+  color: #111 !important;
+}
+
+/* === Hapus border/ring kuning pada select, dropdown, dan input === */
+[data-radix-popper-content-wrapper], 
+[data-radix-select-content], 
+[data-shadcnui-select-content],
+.SelectContent, 
+.select-content,
+div[role="listbox"],
+.SelectTrigger, 
+.select-trigger,
+div[role="combobox"],
+select,
+input,
+button
+{
+  border-color: #e5e7eb !important;   /* abu Tailwind gray-200 */
+  box-shadow: none !important;        /* Hapus efek ring/focus kuning */
+  outline: none !important;
+}
+
+:focus,
+:focus-visible,
+:focus-within
+{
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #e5e7eb !important;   /* Tailwind gray-200 */
+}
+
+/* === Hapus warna kuning dari scrollbar (Chrome, Edge, dll) === */
+::-webkit-scrollbar {
+  background: #fff !important;
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e7eb !important; /* abu muda */
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fff !important;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #e5e7eb #fff;
+}
+
+html, body, #root, .min-h-screen, .bg-gray-50 {
+  background: #fff !important;
+  background-color: #fff !important;
+}
+
+body * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  background: #fff !important;
+}
