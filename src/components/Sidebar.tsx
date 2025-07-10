@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Home, Search, Settings } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from '@/contexts/AuthContext';
+import { useTools } from '@/contexts/ToolContext'; // 1. IMPORT useTools
 
 interface SidebarProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
 }) => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+  const { tools } = useTools(); // 2. AMBIL DATA TOOLS DARI CONTEXT
 
   const menuItems = [
     { name: 'Beranda', path: '/', icon: Home },
@@ -29,11 +31,16 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
     { name: 'Admin', path: '/admin', icon: Settings },
   ];
 
-  const categories = [
-    'Semua Kategori', 'Produktivitas', 'Kreatif', 'Analisis', 'Komunikasi', 'Marketing'
-  ];
+  // 3. BUAT DAFTAR FILTER SECARA DINAMIS
+  const { categories, pricingOptions } = useMemo(() => {
+    const allCategories = new Set(tools.map(tool => tool.category));
+    const allPricings = new Set(tools.map(tool => tool.pricing));
+    return {
+      categories: ['Semua Kategori', ...Array.from(allCategories).sort()],
+      pricingOptions: ['Semua Harga', ...Array.from(allPricings).sort()],
+    };
+  }, [tools]);
 
-  const pricingOptions = ['Semua Harga', 'Gratis', 'Berbayar', 'Freemium'];
 
   return (
     <div className="flex flex-col h-full bg-white border-r border-gray-200">
@@ -75,6 +82,7 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
+                            {/* 4. GUNAKAN DAFTAR DINAMIS DI SINI */}
                             {categories.map((category) => (
                             <SelectItem key={category} value={category}>
                                 {category}
@@ -95,6 +103,7 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
                         <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
+                        {/* 5. GUNAKAN DAFTAR DINAMIS DI SINI JUGA */}
                         {pricingOptions.map((pricing) => (
                             <SelectItem key={pricing} value={pricing}>
                             {pricing}
