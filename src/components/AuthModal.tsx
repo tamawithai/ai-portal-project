@@ -54,7 +54,7 @@ if (email === adminUsername && password === adminPassword) {
           <DialogTitle className="text-center text-xl font-semibold text-gray-900">
             Login Admin
           </DialogTitle>
-          <DialogDescription className="text-center">
+          <DialogDescription className="text-center text-gray-800">
             Silakan masukkan kredensial Anda.
           </DialogDescription>
         </DialogHeader>

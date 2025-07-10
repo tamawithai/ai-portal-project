@@ -134,3 +134,25 @@ button
   scrollbar-width: thin;
   scrollbar-color: #e5e7eb #fff;
 }
+
+/* Perbaiki warna placeholder agar terlihat jelas di input */
+input::placeholder {
+  color: #4B5563; /* Tailwind gray-600, abu gelap */
+  opacity: 1;
+}
+
+/* Jika menggunakan dark mode, override warna background dan teks modal login */
+.dark .sm\:max-w-md {
+  background-color: #1F2937 !important; /* background gelap */
+  color: #F9FAFB !important; /* teks terang */
+}
+
+.dark .sm\:max-w-md input {
+  background-color: #374151 !important; /* input bg gelap */
+  color: #F9FAFB !important; /* input teks terang */
+}
+
+.dark .sm\:max-w-md input::placeholder {
+  color: #D1D5DB !important; /* placeholder abu terang */
+  opacity: 1;
+}
