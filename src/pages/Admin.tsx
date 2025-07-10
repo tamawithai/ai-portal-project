@@ -6,13 +6,14 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import * as XLSX from 'xlsx';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import { supabase } from '../lib/supabaseClient';
+import { useTools } from '../contexts/ToolContext';
 
 const Admin = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua Kategori');
   const [selectedPricing, setSelectedPricing] = useState('Semua Harga');
+  const { setTools } = useTools(); // Tambahkan ini
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<{type: 'success' | 'error' | null, message: string}>({type: null, message: ''});
@@ -58,30 +59,25 @@ const Admin = () => {
     reader.readAsBinaryString(file);
   };
 
-  const handleUploadToSupabase = async () => {
+  const handleUpload = async () => {
     if (previewData.length === 0) return;
     setUploading(true);
     setUploadStatus({ type: null, message: '' });
 
-    const { error: deleteError } = await supabase.from('tools').delete().neq('id', 0);
+    // Simulasi proses upload
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-    if (deleteError) {
-        setUploadStatus({ type: 'error', message: `Gagal menghapus data lama: ${deleteError.message}` });
-        setUploading(false);
-        return;
-    }
+    try {
+      // Simpan data baru ke context
+      setTools(previewData);
 
-    const { error: insertError } = await supabase
-      .from('tools')
-      .insert(previewData);
-
-    if (insertError) {
-      setUploadStatus({ type: 'error', message: `Gagal mengunggah data: ${insertError.message}` });
-    } else {
-      setUploadStatus({ type: 'success', message: `Berhasil mengunggah ${previewData.length} tools ke database!` });
+      setUploadStatus({ type: 'success', message: `Berhasil memuat ${previewData.length} tools ke dalam sistem!` });
       setFile(null);
       setPreviewData([]);
+    } catch (error) {
+      setUploadStatus({ type: 'error', message: `Gagal memuat data: ${error instanceof Error ? error.message : String(error)}` });
     }
+
     setUploading(false);
   };
 
@@ -142,12 +138,12 @@ const Admin = () => {
                       <h3 className="font-semibold text-gray-900">Preview Data ({previewData.length} items)</h3>
                       <div className="flex gap-3">
                         <Button
-                          onClick={handleUploadToSupabase}
-                          disabled={previewData.length === 0 || uploading}
-                          className="bg-gray-800 hover:bg-gray-900 text-white"
-                        >
-                          <Database className="mr-2 h-4 w-4" />
-                          {uploading ? 'Mengunggah...' : `Upload ${previewData.length} Data`}
+                           onClick={handleUpload} // Ganti di sini
+                                disabled={previewData.length === 0 || uploading}
+                                className="bg-gray-800 hover:bg-gray-900 text-white"
+                              >
+                                <Database className="mr-2 h-4 w-4" />
+                                {uploading ? 'Memuat...' : `Muat ${previewData.length} Data`}
                         </Button>
                       </div>
                     </div>

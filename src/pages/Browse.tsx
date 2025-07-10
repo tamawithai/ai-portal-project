@@ -1,37 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import ToolCard from '../components/ToolCard';
 import Footer from '../components/Footer';
 import { Tool } from '../data/mockTools';
-import { supabase } from '../lib/supabaseClient';
+import { useTools } from '../contexts/ToolContext';
 
 const Browse = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua Kategori');
   const [selectedPricing, setSelectedPricing] = useState('Semua Harga');
-  const [allTools, setAllTools] = useState<Tool[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTools = async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('tools')
-        .select('*')
-        .order('popularityScore', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching tools:', error);
-      } else {
-        setAllTools(data as Tool[]);
-      }
-      setLoading(false);
-    };
-
-    fetchTools();
-  }, []);
+  const { tools: allTools, loading } = useTools();
 
   const filteredTools = useMemo(() => {
     return allTools.filter(tool => {
