@@ -7,17 +7,18 @@ import * as XLSX from 'xlsx';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import { useTools } from '../contexts/ToolContext';
+import { Tool } from '../data/mockTools';
 
 const Admin = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua Kategori');
   const [selectedPricing, setSelectedPricing] = useState('Semua Harga');
-  const { setTools } = useTools(); // Tambahkan ini
+  const { setTools } = useTools();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<{type: 'success' | 'error' | null, message: string}>({type: null, message: ''});
-  const [previewData, setPreviewData] = useState<any[]>([]);
+  const [previewData, setPreviewData] = useState<Tool[]>([]);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -37,8 +38,9 @@ const Admin = () => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        
-        const tools = jsonData.map((row: any) => ({
+
+        const tools: Tool[] = jsonData.map((row: any, index: number) => ({
+          id: String(row.id || index + 1),
           name: row.name || row.Name || '',
           description: row.description || row.Description || '',
           link: row.link || row.Link || row.url || row.URL || '',
@@ -92,7 +94,7 @@ const Admin = () => {
           onCategoryChange={setSelectedCategory}
           onPricingChange={setSelectedPricing}
         />
-        
+
         <div className="flex-1 flex flex-col">
           <Header 
             onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
@@ -112,10 +114,21 @@ const Admin = () => {
                     <FileSpreadsheet className="h-6 w-6" />
                     Upload File Excel ke Database
                   </CardTitle>
+                  <CardDescription>
+                    Unggah file Excel untuk memperbarui daftar tools.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center hover:border-gray-300 transition-colors relative">
                     <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                    <div className="space-y-2">
+                      <p className="text-sm text-gray-600">
+                        Klik untuk memilih file Excel atau drag & drop
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Format yang didukung: .xlsx, .xls
+                      </p>
+                    </div>
                     <input
                       id="file-input"
                       type="file"
@@ -136,14 +149,30 @@ const Admin = () => {
                   {previewData.length > 0 && (
                     <div className="space-y-4">
                       <h3 className="font-semibold text-gray-900">Preview Data ({previewData.length} items)</h3>
+                      <div className="max-h-60 overflow-y-auto border rounded-lg p-2">
+                        <div className="grid gap-2">
+                          {previewData.slice(0, 5).map((tool, index) => (
+                            <div key={index} className="bg-white p-3 rounded border text-sm">
+                              <div className="font-medium">{tool.name}</div>
+                              <div className="text-gray-600 text-xs">{tool.category} • {tool.pricing}</div>
+                            </div>
+                          ))}
+                          {previewData.length > 5 && (
+                            <div className="text-center text-sm text-gray-500 py-2">
+                              ... dan {previewData.length - 5} item lainnya
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
                       <div className="flex gap-3">
                         <Button
-                           onClick={handleUpload} // Ganti di sini
-                                disabled={previewData.length === 0 || uploading}
-                                className="bg-gray-800 hover:bg-gray-900 text-white"
-                              >
-                                <Database className="mr-2 h-4 w-4" />
-                                {uploading ? 'Memuat...' : `Muat ${previewData.length} Data`}
+                           onClick={handleUpload}
+                           disabled={previewData.length === 0 || uploading}
+                           className="bg-gray-800 hover:bg-gray-900 text-white"
+                          >
+                            <Database className="mr-2 h-4 w-4" />
+                            {uploading ? 'Memuat...' : `Muat ${previewData.length} Data`}
                         </Button>
                       </div>
                     </div>
