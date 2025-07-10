@@ -9,6 +9,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+<<<<<<< HEAD
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -22,10 +23,28 @@
     "noImplicitAny": false,
 
     /* Path aliases (ini yang penting) */
+=======
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": false,
+    "noFallthroughCasesInSwitch": false,
+
+>>>>>>> 1494ca6fb7369ec3af83384a469bbca7becf77e7
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["src"]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 1494ca6fb7369ec3af83384a469bbca7becf77e7

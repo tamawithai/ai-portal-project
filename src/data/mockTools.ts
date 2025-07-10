@@ -13,10 +13,17 @@ export interface Tool {
 export const mockTools: Tool[] = [
   {
     "id": "1",
+<<<<<<< HEAD
     "name": "Gemini",
     "description": "Membuat musik latar bebas royalti dengan AI.",
     "link": "https://gemini.google.com/app",
     "imageUrl": "https://raw.githubusercontent.com/tamawithai/ai-portal-project/refs/heads/main/asset/gemini.jpg",
+=======
+    "name": "SynthWave",
+    "description": "Membuat musik latar bebas royalti dengan AI.",
+    "link": "https://example.com/synthwave",
+    "imageUrl": "https://placehold.co/500x300/e8d2fc/6b46c1?text=SynthWave",
+>>>>>>> 1494ca6fb7369ec3af83384a469bbca7becf77e7
     "category": "Kreatif",
     "pricing": "Freemium",
     "tags": [

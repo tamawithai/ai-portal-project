@@ -1,9 +1,17 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Home, Search, Settings } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from '@/contexts/AuthContext';
+=======
+import { useAuth } from '@/contexts/AuthContext';
+import { Home, Search, Heart, Settings } from 'lucide-react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+>>>>>>> 1494ca6fb7369ec3af83384a469bbca7becf77e7
 
 interface SidebarProps {
   isOpen: boolean;
@@ -22,7 +30,10 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
 }) => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1494ca6fb7369ec3af83384a469bbca7becf77e7
   const menuItems = [
     { name: 'Beranda', path: '/', icon: Home },
     { name: 'Semua Tools', path: '/browse', icon: Search },
@@ -41,6 +52,7 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
         <ul className="space-y-2">
           {menuItems.map((item) => {
             if (item.name === 'Admin' && !isAuthenticated) {
+<<<<<<< HEAD
               return null;
             }
             return (
@@ -60,6 +72,27 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
             );
           })}
         </ul>
+=======
+              return null; // Jangan tampilkan menu Admin jika belum login
+    }
+    return (
+      <li key={item.name}>
+        <NavLink
+          to={item.path}
+          className={({ isActive }) =>
+            `flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium ${
+              isActive ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
+            }`
+          }
+        >
+          <item.icon className="h-5 w-5" />
+          <span>{item.name}</span>
+        </NavLink>
+      </li>
+    );
+  })}
+</ul>
+>>>>>>> 1494ca6fb7369ec3af83384a469bbca7becf77e7
 
         {location.pathname === '/' && onCategoryChange && onPricingChange && (
           <div className="mt-8 pt-4 border-t border-gray-200">
@@ -112,6 +145,10 @@ const SidebarContent: React.FC<Omit<SidebarProps, 'isOpen' | 'onOpenChange'>> = 
   );
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1494ca6fb7369ec3af83384a469bbca7becf77e7
 const Sidebar: React.FC<SidebarProps> = ({ 
   isOpen, 
   onOpenChange,
