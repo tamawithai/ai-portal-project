@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen, searchQuery, 
                 placeholder="Cari tools AI..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full bg-white border-gray-300 text-gray-900 focus:border-gray-800 focus:ring-gray-800"
+                className="pl-10 pr-4 py-2 w-full bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-gray-800 focus:ring-gray-800"
               />
             </div>
           </div>

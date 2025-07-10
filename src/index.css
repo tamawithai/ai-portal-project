@@ -134,19 +134,3 @@ button
   scrollbar-width: thin;
   scrollbar-color: #e5e7eb #fff;
 }
-
-html, body, #root, .min-h-screen, .bg-gray-50 {
-  background: #fff !important;
-  background-color: #fff !important;
-}
-
-body * {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-::-webkit-scrollbar,
-::-webkit-scrollbar-thumb,
-::-webkit-scrollbar-track {
-  background: #fff !important;
-}
